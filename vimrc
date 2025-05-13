@@ -33,6 +33,7 @@ Plugin 'preservim/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'gergap/vim-ollama'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
