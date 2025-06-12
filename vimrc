@@ -33,7 +33,7 @@ Plugin 'preservim/nerdtree'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'gergap/vim-ollama'
+"Plugin 'gergap/vim-ollama'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -69,3 +69,4 @@ let g:ycm_semantic_triggers =  {
   \ }
 "Remove top popup when autocompleting
 set completeopt-=preview
+set clipboard=unnamed,unnamedplus
