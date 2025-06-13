@@ -1,0 +1,51 @@
+# valid log levels: debug, info (default), warn, error
+logLevel: info
+
+models:
+
+  "qwen3-30B":
+    cmd: |
+      llama-server 
+      --model /home/davpace/Models/Qwen3-30B/Qwen3-30B-A3B-Q4_K_M.gguf
+      -ot ".ffn_.*_exps.=CPU"
+      --threads 20 
+      --ctx-size 16384 
+      --n-gpu-layers 20 
+      --seed 3407 
+      --prio 3 
+      --temp 0.6 
+      --min-p 0.0        
+      --top-p 0.95
+      --top-k 20 
+      --port ${PORT}
+    
+    ttl: 900
+
+  "gemma3-12b":
+    cmd: |
+      llama-server 
+      --model /home/davpace/Models/Gemma3-12b/gemma-3-12b-it-q4_0.gguf 
+      --mmproj /home/davpace/Models/Gemma3-12b/mmproj-model-f16-12B.gguf 
+      --threads 20 
+      --ctx-size 16384 
+      --n-gpu-layers 20
+      --seed 3407 
+      --prio 2 
+      --temp 1.0 
+      --repeat-penalty 1.0 
+      --min-p 0.01 
+      --top-k 64 
+      --top-p 0.95
+      --port ${PORT}
+  
+  ttl: 900
+
+  "qwen2.5-coder-7b":
+    cmd: |
+      llama-server 
+      --model /home/davpace/Models/Qwen2.5-coder-7b/qwen2.5-coder-7b-q8_0.gguf
+      --n-gpu-layers 20
+      --ctx-size 16384
+      --port ${PORT}
+    
+    ttl: 900
