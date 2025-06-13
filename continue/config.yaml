@@ -1,0 +1,35 @@
+name: Local Assistant
+version: 1.0.0
+schema: v1
+models:
+  - name: gemma3-12b
+    provider: openai
+    apiBase: http://localhost:8080/v1
+    model: gemma3-12b
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: qwen3-30B
+    provider: openai
+    apiBase: http://localhost:8080/v1
+    model: qwen3-30B
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: qwen2.5-coder-7b
+    provider: openai
+    apiBase: http://localhost:8080/v1
+    model: qwen2.5-coder-7b
+    roles:
+      - autocomplete
+
+context:
+  - provider: code
+  - provider: docs
+  - provider: diff
+  - provider: terminal
+  - provider: problems
+  - provider: folder
+  - provider: codebase
