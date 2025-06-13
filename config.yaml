@@ -5,7 +5,7 @@ models:
 
   "qwen3-30B":
     cmd: |
-      llama-server 
+      /home/davpace/llama.cpp/build/bin/llama-server 
       --model /home/davpace/Models/Qwen3-30B/Qwen3-30B-A3B-Q4_K_M.gguf
       -ot ".ffn_.*_exps.=CPU"
       --threads 20 
@@ -23,7 +23,7 @@ models:
 
   "gemma3-12b":
     cmd: |
-      llama-server 
+      /home/davpace/llama.cpp/build/bin/llama-server  
       --model /home/davpace/Models/Gemma3-12b/gemma-3-12b-it-q4_0.gguf 
       --mmproj /home/davpace/Models/Gemma3-12b/mmproj-model-f16-12B.gguf 
       --threads 20 
@@ -38,11 +38,11 @@ models:
       --top-p 0.95
       --port ${PORT}
   
-  ttl: 900
+    ttl: 900
 
   "qwen2.5-coder-7b":
     cmd: |
-      llama-server 
+      /home/davpace/llama.cpp/build/bin/llama-server 
       --model /home/davpace/Models/Qwen2.5-coder-7b/qwen2.5-coder-7b-q8_0.gguf
       --n-gpu-layers 20
       --ctx-size 16384
