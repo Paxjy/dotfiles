@@ -1,5 +1,5 @@
 # valid log levels: debug, info (default), warn, error
-logLevel: info
+logLevel: debug
 
 models:
 
@@ -7,6 +7,8 @@ models:
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
       --model /home/davpace/Models/Qwen3-30B/Qwen3-30B-A3B-Q4_K_M.gguf
+      --jinja
+      -fa
       -ot ".ffn_.*_exps.=CPU"
       --threads 20 
       --ctx-size 16384 
@@ -55,12 +57,27 @@ models:
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
       --model /home/davpace/Models/Magistral/Magistral-Small-2506-Q4_K_M.gguf
+      --mmproj /home/davpace/Models/Magistral/mmproj-BF16.gguf
       --jinja 
       --temp 0.7 
       --top-k -1 
       --top-p 0.95 
-      -ngl 30
+      -ngl 26
       --ctx-size 16384
+      --repeat-penalty 1.0
       --threads 20
       --port ${PORT}
       --no-kv-offload
+
+  "llama3.1-8b":
+    cmd: |
+      /home/davpace/llama.cpp/build/bin/llama-server 
+      --model /home/davpace/Models/Llama-3.1/Llama-3.1-8B-Instruct-q4_k_m.gguf 
+      --jinja 
+      -fa
+      --n-gpu-layers 99
+      --ctx-size 16384
+      --threads 20
+      --port ${PORT}
+
+    ttl: 900

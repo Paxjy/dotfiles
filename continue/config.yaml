@@ -2,14 +2,33 @@ name: Local Assistant
 version: 1.0.0
 schema: v1
 models:
+  - name: llama3.1-8b
+    provider: openai
+    apiBase: http://localhost:8080/v1
+    model: llama3.1-8b
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
+    capabilities:
+      - tool_use
+    # chatOptions: 
+    #   baseSystemMessage: ""
+    roles:
+      - chat
+      - edit
+      - apply
+
   - name: Gemma3-12b
     provider: openai
     apiBase: http://localhost:8080/v1
     model: gemma3-12b
-    capabilitites:
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
+    capabilities:
       - image_input
-    chatOptions: 
-      baseSystemMessage: ""
+    # chatOptions: 
+    #   baseSystemMessage: ""
     roles:
       - chat
       - edit
@@ -19,10 +38,13 @@ models:
     provider: openai
     apiBase: http://localhost:8080/v1
     model: qwen3-30B
-    capabilitites:
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
+    capabilities:
       - tool_use
-    chatOptions: 
-      baseSystemMessage: ""
+    # chatOptions: 
+    #   baseSystemMessage: ""
     roles:
       - chat
       - edit
@@ -32,6 +54,9 @@ models:
     provider: openai
     apiBase: http://localhost:8080/v1
     model: qwen2.5-coder-7b
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
     roles:
       - autocomplete
   
@@ -39,8 +64,13 @@ models:
     provider: openai
     apiBase: http://localhost:8080/v1
     model: magistral
-    chatOptions: 
-      baseSystemMessage: ""
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
+    capabilities:
+      - image_input
+    # chatOptions: 
+    #   baseSystemMessage: ""
     roles:
       - chat
       - edit
