@@ -2,28 +2,49 @@ name: Local Assistant
 version: 1.0.0
 schema: v1
 models:
-  - name: gemma3-12b
+  - name: Gemma3-12b
     provider: openai
     apiBase: http://localhost:8080/v1
     model: gemma3-12b
+    capabilitites:
+      - image_input
+    chatOptions: 
+      baseSystemMessage: ""
     roles:
       - chat
       - edit
       - apply
-  - name: qwen3-30B
+
+  - name: Qwen3-30B
     provider: openai
     apiBase: http://localhost:8080/v1
     model: qwen3-30B
+    capabilitites:
+      - tool_use
+    chatOptions: 
+      baseSystemMessage: ""
     roles:
       - chat
       - edit
       - apply
-  - name: qwen2.5-coder-7b
+      
+  - name: Qwen2.5-coder-7b
     provider: openai
     apiBase: http://localhost:8080/v1
     model: qwen2.5-coder-7b
     roles:
       - autocomplete
+  
+  - name: Magistral
+    provider: openai
+    apiBase: http://localhost:8080/v1
+    model: magistral
+    chatOptions: 
+      baseSystemMessage: ""
+    roles:
+      - chat
+      - edit
+      - apply
 
 context:
   - provider: code

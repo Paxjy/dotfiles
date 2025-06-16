@@ -10,7 +10,7 @@ models:
       -ot ".ffn_.*_exps.=CPU"
       --threads 20 
       --ctx-size 16384 
-      --n-gpu-layers 20 
+      --n-gpu-layers 99 
       --seed 3407 
       --prio 3 
       --temp 0.6 
@@ -18,17 +18,18 @@ models:
       --top-p 0.95
       --top-k 20 
       --port ${PORT}
+      --no-kv-offload
     
     ttl: 900
 
   "gemma3-12b":
     cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server  
+      /home/davpace/llama.cpp/build/bin/llama-server
       --model /home/davpace/Models/Gemma3-12b/gemma-3-12b-it-q4_0.gguf 
       --mmproj /home/davpace/Models/Gemma3-12b/mmproj-model-f16-12B.gguf 
       --threads 20 
       --ctx-size 16384 
-      --n-gpu-layers 20
+      --n-gpu-layers 99
       --seed 3407 
       --prio 2 
       --temp 1.0 
@@ -37,6 +38,7 @@ models:
       --top-k 64 
       --top-p 0.95
       --port ${PORT}
+      --no-kv-offload
   
     ttl: 900
 
@@ -44,8 +46,21 @@ models:
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
       --model /home/davpace/Models/Qwen2.5-coder-7b/qwen2.5-coder-7b-q8_0.gguf
-      --n-gpu-layers 20
-      --ctx-size 16384
+      --n-gpu-layers 99
       --port ${PORT}
     
     ttl: 900
+
+  "magistral":
+    cmd: |
+      /home/davpace/llama.cpp/build/bin/llama-server 
+      --model /home/davpace/Models/Magistral/Magistral-Small-2506-Q4_K_M.gguf
+      --jinja 
+      --temp 0.7 
+      --top-k -1 
+      --top-p 0.95 
+      -ngl 30
+      --ctx-size 16384
+      --threads 20
+      --port ${PORT}
+      --no-kv-offload
