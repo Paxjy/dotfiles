@@ -3,6 +3,40 @@ logLevel: debug
 
 models:
 
+  "r1-qwen3-8b":
+    cmd: |
+      /home/davpace/llama.cpp/build/bin/llama-server
+      --model /home/davpace/Models/R1-Qwen3-8b/DeepSeek-R1-0528-Qwen3-8B-Q8_0.gguf
+      --threads 20
+      --ctx-size 16384 
+      --n-gpu-layers 99
+      --jinja
+      --port ${PORT}
+      --temp 0.6
+      --min-p 0.00
+      --repeat-penalty 1.0
+      --top-k 20 
+      --top-p 0.95
+      --no-kv-offload
+
+  "gemma3-27b":
+    cmd: |
+      /home/davpace/llama.cpp/build/bin/llama-server
+      --model /home/davpace/Models/Gemma3-27b/gemma-3-27b-it-q4_0.gguf 
+      --mmproj /home/davpace/Models/Gemma3-27b/mmproj-model-f16-27B.gguf 
+      --threads 20 
+      --ctx-size 16384 
+      --n-gpu-layers 30
+      --seed 3407 
+      --prio 2 
+      --temp 1.0 
+      --repeat-penalty 1.0 
+      --min-p 0.01 
+      --top-k 64 
+      --top-p 0.95
+      --port ${PORT}
+      --no-kv-offload
+
   "qwen3-30B":
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
@@ -20,7 +54,6 @@ models:
       --top-p 0.95
       --top-k 20 
       --port ${PORT}
-      --no-kv-offload
     
     ttl: 900
 
@@ -40,7 +73,6 @@ models:
       --top-k 64 
       --top-p 0.95
       --port ${PORT}
-      --no-kv-offload
   
     ttl: 900
 
