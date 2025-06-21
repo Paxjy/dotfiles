@@ -3,6 +3,38 @@ version: 1.0.0
 schema: v1
 models:
 
+  - name: qwen3-8B-vllm
+    provider: vllm
+    apiBase: http://localhost:8000/v1
+    model: Qwen/Qwen3-8B-AWQ
+    # defaultCompletionOptions:
+    #   contextLength: 16384
+    #   maxTokens: 8192
+    capabilities:
+      - tool_use
+    chatOptions: 
+      baseSystemMessage: ""
+    roles:
+      - chat
+      - edit
+      - apply
+
+  - name: r1-qwen3-8B-mac
+    provider: openai
+    apiBase: http://192.168.1.57:8080/v1
+    model: r1-qwen3-8b
+    defaultCompletionOptions:
+      contextLength: 16384
+      maxTokens: 8192
+    capabilities:
+      - tool_use
+    chatOptions: 
+      baseSystemMessage: ""
+    roles:
+      - chat
+      - edit
+      - apply
+
   - name: r1-qwen3-8B
     provider: openai
     apiBase: http://localhost:8080/v1
@@ -12,8 +44,8 @@ models:
       maxTokens: 8192
     capabilities:
       - tool_use
-    # chatOptions: 
-    #   baseSystemMessage: ""
+    chatOptions: 
+      baseSystemMessage: ""
     roles:
       - chat
       - edit
