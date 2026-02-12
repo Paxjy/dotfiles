@@ -3,109 +3,46 @@ logLevel: debug
 
 models:
 
-  "r1-qwen3-8b":
-    cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server
-      --model /home/davpace/Models/R1-Qwen3-8b/DeepSeek-R1-0528-Qwen3-8B-Q4_K_M.gguf
-      --threads 20
-      --ctx-size 16384 
-      --n-gpu-layers 99
-      --port ${PORT}
-      --temp 0.6
-      --min-p 0.00
-      --repeat-penalty 1.0
-      --top-k 20 
-      --top-p 0.95
-
-  "gemma3-27b":
-    cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server
-      --model /home/davpace/Models/Gemma3-27b/gemma-3-27b-it-q4_0.gguf 
-      --mmproj /home/davpace/Models/Gemma3-27b/mmproj-model-f16-27B.gguf 
-      --threads 20 
-      --ctx-size 16384 
-      --n-gpu-layers 30
-      --seed 3407 
-      --prio 2 
-      --temp 1.0 
-      --repeat-penalty 1.0 
-      --min-p 0.01 
-      --top-k 64 
-      --top-p 0.95
-      --port ${PORT}
-      --no-kv-offload
-
-  "qwen3-30B":
+  "qwen3-coder-30B":
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/Qwen3-30B/Qwen3-30B-A3B-Q4_K_M.gguf
-      -fa
-      -ot ".ffn_.*_exps.=CPU"
-      --threads 20 
-      --ctx-size 16384 
-      --n-gpu-layers 99 
-      --seed 3407 
-      --prio 3 
-      --temp 0.6 
-      --min-p 0.0        
-      --top-p 0.95
-      --top-k 20 
-      --port ${PORT}
-    
-    ttl: 900
-
-  "gemma3-12b":
-    cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server
-      --model /home/davpace/Models/Gemma3-12b/gemma-3-12b-it-q4_0.gguf 
-      --mmproj /home/davpace/Models/Gemma3-12b/mmproj-model-f16-12B.gguf 
-      --threads 20 
-      --ctx-size 16384 
-      --n-gpu-layers 99
-      --seed 3407 
-      --prio 2 
-      --temp 1.0 
-      --repeat-penalty 1.0 
-      --min-p 0.01 
-      --top-k 64 
-      --top-p 0.95
-      --port ${PORT}
-  
-    ttl: 900
-
-  "qwen2.5-coder-7b":
-    cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/Qwen2.5-coder-7b/qwen2.5-coder-7b-q8_0.gguf
-      --n-gpu-layers 99
-      --port ${PORT}
-    
-    ttl: 900
-
-  "magistral":
-    cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/Magistral/Magistral-Small-2506-Q4_K_M.gguf
-      --mmproj /home/davpace/Models/Magistral/mmproj-BF16.gguf
+      --model /home/davpace/Models/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
       --jinja 
-      --temp 0.7 
-      --top-k -1 
-      --top-p 0.95 
-      -ngl 26
-      --ctx-size 16384
-      --repeat-penalty 1.0
-      --threads 20
-      --port ${PORT}
-      --no-kv-offload
+      --threads 20 
+      --ctx-size 64000
+      --temp 0.7 --min-p 0.0 --top-p 0.80 --top-k 20 --repeat-penalty 1.05 
+      --cpu-moe
+      --port ${PORT}  
+      -ngl auto
+      --fit on
+    ttl: 900
 
-  "llama3.1-8b":
+  "gpt-oss":
     cmd: |
       /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/Llama-3.1/Llama-3.1-8B-Instruct-q4_k_m.gguf 
-      -fa
-      --n-gpu-layers 99
-      --ctx-size 16384
-      --threads 20
-      --port ${PORT}
-
+      --model /home/davpace/Models/gpt-oss-20b-F16.gguf
+      --jinja -ngl auto --threads 20 --ctx-size 128000 
+      --temp 0.6 --top-p 1.0 --top-k 0 
+      -ot ".ffn_(up|down)_exps.=CPU"
+      --port ${PORT} 
+      --fit on
+      --chat-template-kwargs '{"reasoning_effort": "high"}'
     ttl: 900
+
+  "glm-4.7-flash":
+    cmd: |
+      /home/davpace/llama.cpp/build/bin/llama-server
+      --model /home/davpace/Models/GLM-4.7-Flash-UD-Q4_K_XL.gguf
+      --jinja
+      --threads 20
+      --ctx-size 128000
+      --temp 0.7
+      --top-p 1.0
+      --min-p 0.01
+      --port ${PORT}
+      --fit on
+      --cpu-moe
+      -ngl auto
+      # --chat-template-kwargs '{"enable_thinking": false}'
+    ttl: 900
+
