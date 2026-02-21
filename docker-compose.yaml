@@ -1,0 +1,21 @@
+services:
+  llama-swap:
+    image: ghcr.io/mostlygeek/llama-swap:rocm-non-root
+    container_name: llama-swap
+    network_mode: host # Consigliato per evitare problemi di mapping porte tra proxy e server
+    volumes:
+      - /home/davpace/Models:/models
+      - /home/davpace/dotfiles/llama-swap:/config
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    command: ["-config", "/config/config.yaml", "-watch-config"]
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 43200 --cleanup --include-stopped
+    restart: unless-stopped

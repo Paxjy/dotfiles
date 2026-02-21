@@ -1,48 +1,73 @@
-# valid log levels: debug, info (default), warn, error
-logLevel: debug
+llamalogLevel: debug
 
 models:
-
   "qwen3-coder-30B":
     cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
+      llama-server 
+      --model /models/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
       --jinja 
       --threads 20 
-      --ctx-size 64000
-      --temp 0.7 --min-p 0.0 --top-p 0.80 --top-k 20 --repeat-penalty 1.05 
+      --ctx-size 128000
       --cpu-moe
-      --port ${PORT}  
+      --temp 0.7 --min-p 0.0 --top-p 0.80 --top-k 20 --repeat-penalty 1.05
+      --port ${PORT}
       -ngl auto
       --fit on
     ttl: 900
 
   "gpt-oss":
     cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server 
-      --model /home/davpace/Models/gpt-oss-20b-F16.gguf
+      llama-server 
+      --model /models/gpt-oss-20b-mxfp4.gguf
       --jinja -ngl auto --threads 20 --ctx-size 128000 
-      --temp 0.6 --top-p 1.0 --top-k 0 
-      -ot ".ffn_(up|down)_exps.=CPU"
-      --port ${PORT} 
+      --temp 0.6 --top-p 1.0 --top-k 0
+      --port ${PORT}
       --fit on
-      --chat-template-kwargs '{"reasoning_effort": "high"}'
+      --chat-template-kwargs '{"reasoning_effort": "low"}'
     ttl: 900
 
   "glm-4.7-flash":
     cmd: |
-      /home/davpace/llama.cpp/build/bin/llama-server
-      --model /home/davpace/Models/GLM-4.7-Flash-UD-Q4_K_XL.gguf
+      llama-server
+      --model /models/GLM-4.7-Flash-UD-Q4_K_XL.gguf
       --jinja
       --threads 20
-      --ctx-size 128000
+      --ctx-size 64000
       --temp 0.7
       --top-p 1.0
       --min-p 0.01
       --port ${PORT}
       --fit on
-      --cpu-moe
       -ngl auto
-      # --chat-template-kwargs '{"enable_thinking": false}'
     ttl: 900
 
+  "devstral-small-2":
+    cmd: |
+      llama-server
+      --model /models/devstral-small-2/Devstral-Small-2-24B-Instruct-2512-UD-Q4_K_XL.gguf
+      --mmproj /models/devstral-small-2/mmproj-F16.gguf
+      -ngl auto
+      --min_p 0.01 
+      --threads 20
+      --ctx-size 32000
+      --port ${PORT}
+      --fit on
+      --chat-template-file /models/devstral-small-2/devstral-fix.jinja
+    ttl: 900
+
+  "qwen3-coder-next":
+    cmd: |
+      llama-server 
+      --model /models/Qwen3-Coder-Next-UD-Q3_K_XL.gguf
+      --seed 3407 
+      --ctx-size 64000
+      --threads 20
+      --temp 1.0 
+      --top-p 0.95 
+      --min-p 0.01 
+      --top-k 40 
+      --port ${PORT}
+      --fit on
+      -ngl auto
+      -ot "\.(3[0-9]|[3-9][0-9]|[1-4][0-9][0-9]|50[0-9]|51[0-1])\.ffn_(gate|up|down)_exps=CPU"
+      --mlock
