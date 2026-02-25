@@ -9,7 +9,7 @@
       },
       "models": {
         "qwen3-coder-30B": {
-          "name": "Qwen3-Coder: a3b-30b",
+          "name": "Qwen3-Coder A3B-30B",
           "limit": {
             "context": 64000,
             "output": 16384
@@ -25,25 +25,25 @@
         "glm-4.7-flash": {
           "name": "Glm-4.7 flash",
           "limit": {
-            "context": 128000,
+            "context": 80000,
             "output": 16384
           }
         },
-        "qwen3-coder-next-q3": {
-          "name": "Qwen3-Coder-Next-Q3",
+        "qwen3-coder-next": {
+          "name": "Qwen3 Coder Next",
           "limit": {
             "context": 128000,
             "output": 16384
           }
         },
-        "qwen3-coder-next-q2": {
-          "name": "Qwen3-Coder-Next-Q2",
+
+        "devstral-small-2": {
+          "name": "Devstral Small 2",
           "limit": {
-            "context": 128000,
+            "context": 32000,
             "output": 16384
           }
         }
-
       }
     }
   }

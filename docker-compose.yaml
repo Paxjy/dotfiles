@@ -2,7 +2,10 @@ services:
   llama-swap:
     image: ghcr.io/mostlygeek/llama-swap:rocm-non-root
     container_name: llama-swap
-    network_mode: host # Consigliato per evitare problemi di mapping porte tra proxy e server
+    network_mode: host
+    environment:
+      # This forces ROCm to only "see" the 7900 XTX
+      - HIP_VISIBLE_DEVICES=0
     volumes:
       - /home/davpace/Models:/models
       - /home/davpace/dotfiles/llama-swap:/config
