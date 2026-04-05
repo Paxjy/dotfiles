@@ -24,7 +24,7 @@ models:
       --model ${model_dir}/gpt-oss-20b-mxfp4.gguf
       --jinja --ctx-size 128000 
       --temp 0.6 --top-p 1.0 --top-k 0
-      --chat-template-kwargs '{"reasoning_effort": "low"}'
+      --chat-template-kwargs '{"reasoning_effort": "medium"}'
 
   "glm-4.7-flash":
     ttl: 900
@@ -105,3 +105,19 @@ models:
       --mmproj ${model_dir}/Qwen3.5-9B/mmproj-F16.gguf
       --temp 0.7 --top-p 0.8 --top-k 20 --min-p 0.00 --ctx-size 128000
       --chat-template-kwargs '{"enable_thinking":false}'
+
+  "Gemma4-31B":
+    ttl: 900
+    cmd: |
+      ${bin} ${base_args}
+      --model ${model_dir}/Gemma4-31B/gemma-4-31B-it-UD-Q4_K_XL.gguf
+      --mmproj ${model_dir}/Gemma4-31B/mmproj-BF16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 32000
+
+  "Gemma4-26B-4A":
+    ttl: 900
+    cmd: |
+      ${bin} ${base_args}
+      --model ${model_dir}/Gemma4-26B-4A/gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf
+      --mmproj ${model_dir}/Gemma4-26B-4A/mmproj-BF16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 32000
