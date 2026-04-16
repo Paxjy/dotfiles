@@ -4,18 +4,14 @@ logLevel: debug
 macros:
   "bin": "/home/davpace/llama.cpp/build/bin/llama-server"
   "base_args": >
-    --fit on -fa on --mlock --port ${PORT} --fit on
-    --batch-size 1024 --ubatch-size 512 --kv-unified
+    --fit on  --fit-target 2048
+    --webui-mcp-proxy
+    -fa on --no-mmap --mlock --port ${PORT} --host 0.0.0.0 
+    --batch-size 1024 --ubatch-size 512 --kv-unified -np 1
+    --cache-type-k q8_0 --cache-type-v q8_0
   "model_dir": "/home/davpace/Models"
 
 models:
-  "qwen3-coder-30B":
-    ttl: 900
-    cmd: |
-      ${bin} ${base_args}
-      --model ${model_dir}/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
-      --jinja --ctx-size 64000
-      --temp 0.7 --min-p 0.0 --top-p 0.80 --top-k 20 --repeat-penalty 1.05
 
   "gpt-oss":
     ttl: 900
@@ -24,7 +20,7 @@ models:
       --model ${model_dir}/gpt-oss-20b-mxfp4.gguf
       --jinja --ctx-size 128000 
       --temp 0.6 --top-p 1.0 --top-k 0
-      --chat-template-kwargs '{"reasoning_effort": "medium"}'
+      --chat-template-kwargs '{"reasoning_effort": "high"}'
 
   "glm-4.7-flash":
     ttl: 900
@@ -34,23 +30,6 @@ models:
       --jinja --ctx-size 64000
       --temp 0.7 --top-p 1.0 --min-p 0.01
 
-  "devstral-small-2":
-    ttl: 900
-    cmd: |
-      ${bin} ${base_args}
-      --model ${model_dir}/devstral-small-2/Devstral-Small-2-24B-Instruct-2512-UD-Q4_K_XL.gguf
-      --mmproj ${model_dir}/devstral-small-2/mmproj-F16.gguf
-      # --chat-template-file ${model_dir}/devstral-small-2/devstral-fix.jinja
-      --min_p 0.01 --ctx-size 48000 --jinja
-
-  # "qwen3-coder-next-IQ3_XXS":
-  #   ttl: 900
-  #   cmd: |
-  #     ${bin} ${base_args}
-  #     --model ${model_dir}/Qwen3-Coder-Next-UD-IQ3_XXS.gguf
-  #     --seed 3407 --ctx-size 64000
-  #     --temp 1.0 --top-p 0.95 --min-p 0.01 --top-k 40
-  
   "qwen3.5-27b-code":
     ttl: 900
     cmd: |
@@ -58,7 +37,7 @@ models:
       --model ${model_dir}/Qwen3.5-27B/Qwen3.5-27B-UD-Q4_K_XL.gguf
       --mmproj ${model_dir}/Qwen3.5-27B/mmproj-F16.gguf
       --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.00
-      --ctx-size 64000
+      --ctx-size 128000
 
   "qwen3.5-27b-general":
     ttl: 900
@@ -74,9 +53,9 @@ models:
     ttl: 900
     cmd: |
       ${bin} ${base_args}
-      --model ${model_dir}/Qwen3.5-35B-3A/Qwen3.5-35B-A3B-UD-Q4_K_XL.gguf
-      --mmproj ${model_dir}/Qwen3.5-35B-3A/mmproj-F16.gguf
-      --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.00 --ctx-size 64000
+      --model ${model_dir}/Qwen3.5-35B-3A/Qwen_Qwen3.5-35B-A3B-Q6_K_L.gguf
+      --mmproj ${model_dir}/Qwen3.5-35B-3A/mmproj-Qwen_Qwen3.5-35B-A3B-bf16.gguf
+      --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.00 --ctx-size 128000
 
   "qwen3.5-35b-3a-general":
     ttl: 900
@@ -86,7 +65,6 @@ models:
       --mmproj ${model_dir}/Qwen3.5-35B-3A/mmproj-F16.gguf
       --temp 0.7 --top-p 0.8 --top-k 20 --min-p 0.00 --ctx-size 64000
       --chat-template-kwargs '{"enable_thinking":false}'
-
 
   "qwen3.5-9b-code":
     ttl: 900
@@ -110,14 +88,38 @@ models:
     ttl: 900
     cmd: |
       ${bin} ${base_args}
-      --model ${model_dir}/Gemma4-31B/gemma-4-31B-it-UD-Q4_K_XL.gguf
-      --mmproj ${model_dir}/Gemma4-31B/mmproj-BF16.gguf
-      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 32000
+      --model ${model_dir}/Gemma4-31B/google_gemma-4-31B-it-Q4_K_M.gguf
+      --mmproj ${model_dir}/Gemma4-31B/mmproj-google_gemma-4-31B-it-bf16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 64000
 
-  "Gemma4-26B-4A":
+  "Gemma4-26B-4A-Q6_K_L":
     ttl: 900
     cmd: |
       ${bin} ${base_args}
-      --model ${model_dir}/Gemma4-26B-4A/gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf
-      --mmproj ${model_dir}/Gemma4-26B-4A/mmproj-BF16.gguf
-      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 32000
+      --model ${model_dir}/Gemma4-26B-4A/google_gemma-4-26B-A4B-it-Q6_K_L.gguf
+      #--mmproj ${model_dir}/Gemma4-26B-4A/mmproj-google_gemma-4-26B-A4B-it-bf16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 128000
+
+  "Gemma4-26B-4A-Q4_K_M":
+    ttl: 900
+    cmd: |
+      ${bin} ${base_args}
+      --model ${model_dir}/Gemma4-26B-4A/google_gemma-4-26B-A4B-it-Q4_K_M.gguf
+      --mmproj ${model_dir}/Gemma4-26B-4A/mmproj-google_gemma-4-26B-A4B-it-bf16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 128000
+
+  "Gemma4-E4B":
+    ttl: 900
+    cmd: |
+      ${bin} ${base_args}
+      --model ${model_dir}/Gemma4-E4B/google_gemma-4-E4B-it-Q8_0.gguf
+      --mmproj ${model_dir}/Gemma4-E4B/mmproj-google_gemma-4-E4B-it-bf16.gguf
+      --temp 1.0 --top-p 0.95 --top-k 64 --ctx-size 64000
+
+  "Bonsai-8B":
+    ttl: 900
+    cmd: |
+      /home/davpace/llama.cpp.bonsai/build/bin/llama-server ${base_args}
+      --model ${model_dir}/Bonsai-8B.gguf
+      --temp 0.5 --top-p 0.85 --top-k 20 --ctx-size 64000
+
